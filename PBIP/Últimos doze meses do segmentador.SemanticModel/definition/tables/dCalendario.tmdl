@@ -1,0 +1,120 @@
+table dCalendario
+	lineageTag: f1d8042e-eb99-4abf-a3c0-84bf14c80c59
+	dataCategory: Time
+
+	column Data
+		dataType: dateTime
+		isKey
+		formatString: Short Date
+		lineageTag: c8215315-0635-4f21-8085-bf537c6f88d1
+		summarizeBy: none
+		sourceColumn: Data
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Ano
+		dataType: int64
+		formatString: 0
+		lineageTag: 656dfd93-cb6a-48cc-9872-0f38401b2dbe
+		summarizeBy: none
+		sourceColumn: Ano
+
+		annotation SummarizationSetBy = User
+
+	column Mês
+		dataType: string
+		lineageTag: 57184f7b-f505-4bff-94e2-937e6d3739b7
+		summarizeBy: none
+		sourceColumn: Mês
+		sortByColumn: 'Mês ID'
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mês ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: 52812b85-5f42-45d7-8477-f8358e7d69f0
+		summarizeBy: none
+		sourceColumn: Mês ID
+
+		annotation SummarizationSetBy = User
+
+	column Mês/Ano
+		dataType: string
+		lineageTag: 4b17792d-0bd3-406c-ad12-1ab658db1c23
+		summarizeBy: none
+		sourceColumn: Mês/Ano
+		sortByColumn: 'Mês/Ano ID'
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mês/Ano ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: e55806ce-c297-4164-9449-c23793079700
+		summarizeBy: none
+		sourceColumn: Mês/Ano ID
+
+		annotation SummarizationSetBy = User
+
+	partition dCalendario = m
+		mode: import
+		source = ```
+				let
+				    DataInicial = #date(2023, 8, 1),
+				    DataFinal = DateTime.Date ( DateTime.LocalNow() ),
+				    QtdDias = Duration.Days ( DataFinal - DataInicial ) + 1,
+				    Datas = List.Dates (
+				        DataInicial,
+				        QtdDias,
+				        #duration ( 1, 0, 0, 0)
+				    ), 
+				    Calendario = Table.FromList (
+				        Datas,
+				        Splitter.SplitByNothing(), 
+				        type table [ Data = date ]
+				    ),
+				    Ad_Ano = Table.AddColumn (
+				        Calendario,
+				        "Ano", 
+				        each Date.Year ( [Data] ),
+				        Int64.Type
+				    ),
+				    Ad_Mes = Table.AddColumn (
+				        Ad_Ano,
+				        "Mês", 
+				        each Date.MonthName ( [Data], "pt-BR" ),
+				        type text
+				    ), 
+				    Ad_MesID = Table.AddColumn (
+				        Ad_Mes,
+				        "Mês ID", 
+				        each Date.Month ( [Data] ), 
+				        Int64.Type
+				    ), 
+				    Ad_MesAno = Table.AddColumn (
+				        Ad_MesID,
+				        "Mês/Ano",
+				        each Date.ToText ( [Data], [Format = "MMM/yy", Culture = "pt-BR"]),
+				        type text
+				    ),
+				    Ad_MesAnoID = Table.AddColumn (
+				        Ad_MesAno,
+				        "Mês/Ano ID", 
+				        each [Ano] * 100 + [#"Mês ID"],
+				        Int64.Type
+				    )
+				in
+				    Ad_MesAnoID
+				```
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

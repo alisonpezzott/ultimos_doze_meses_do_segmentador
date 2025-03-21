@@ -1,0 +1,77 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 0,
+            "y": 0
+          },
+          "nodeIndex": "dCalendario",
+          "nodeLineageTag": "f1d8042e-eb99-4abf-a3c0-84bf14c80c59",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0,
+          "expandedHeight": 224
+        },
+        {
+          "location": {
+            "x": 133,
+            "y": 214
+          },
+          "nodeIndex": "fVendas",
+          "nodeLineageTag": "2acd584d-1836-46e7-82bb-ce16077571af",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 384,
+            "y": 113
+          },
+          "nodeIndex": "Medidas",
+          "nodeLineageTag": "29fcf054-0224-498b-b853-2e014bb29d77",
+          "size": {
+            "height": 72,
+            "width": 234
+          },
+          "zIndex": 0,
+          "expandedHeight": 200
+        },
+        {
+          "location": {
+            "x": 377.99999618530273,
+            "y": 0
+          },
+          "nodeIndex": "dSegmentador",
+          "nodeLineageTag": "1bbe137d-ada1-46fe-b72d-87a60ba9c8d8",
+          "size": {
+            "height": 72,
+            "width": 234
+          },
+          "zIndex": 0,
+          "expandedHeight": 200
+        }
+      ],
+      "name": "Todas as tabelas",
+      "zoomValue": 120,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Todas as tabelas",
+  "defaultDiagram": "Todas as tabelas"
+}

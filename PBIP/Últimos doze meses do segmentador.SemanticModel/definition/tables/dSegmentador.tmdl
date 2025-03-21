@@ -1,0 +1,47 @@
+table dSegmentador
+	lineageTag: 1bbe137d-ada1-46fe-b72d-87a60ba9c8d8
+
+	column Mês/Ano
+		lineageTag: f881f6f5-608d-45c8-8ee9-b773b0b1a945
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: dCalendario[Mês/Ano]
+		sortByColumn: 'Mês/Ano ID'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mês/Ano ID'
+		formatString: 0
+		lineageTag: 4149e2fe-fec0-4032-8b62-04bcd769130d
+		summarizeBy: count
+		isNameInferred
+		sourceColumn: dCalendario[Mês/Ano ID]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Data
+		formatString: Short Date
+		lineageTag: de30c452-ee96-42ce-9b92-93528d5ebf90
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: dCalendario[Data]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition dSegmentador = calculated
+		mode: import
+		source = ```
+				
+				// Tabela desconectada para o segmentador de Mês/Ano
+				SUMMARIZECOLUMNS ( 
+				    dCalendario[Mês/Ano],
+				    dCalendario[Mês/Ano ID],
+				    dCalendario[Data]
+				)
+				
+				```
+
+	annotation PBI_Id = 058461f9b10d49f0a1a2b69fefd06b71
+

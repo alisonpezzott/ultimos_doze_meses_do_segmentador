@@ -1,0 +1,60 @@
+table Medidas
+	lineageTag: 29fcf054-0224-498b-b853-2e014bb29d77
+
+	measure 'Total de Vendas' = ```
+			SUM ( fVendas[Valor] ) 
+			```
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: f5908104-1d97-4aef-9aa5-0b07140c0c4b
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Últimos 12 meses' = ```
+			
+			/* Calcula os últimos 12 meses de vendas
+			   de acordo com o [Mês/Ano] do segmentador */
+			
+			// Extrai a última data do segmentador
+			VAR __UltimaData = LASTDATE ( dSegmentador[Data] )
+			
+			/* Calcula a primeira data. Subtrai-se 12 meses e
+			   adiciona 1 um dia. */
+			VAR __PrimeiraData = EDATE ( __UltimaData, -12 ) + 1
+			
+			/* Calcula o [Total de Vendas] no intervalo.
+			   A função KEEPFILTERS devolve o contexto ao visual. */
+			VAR __Resultado = 
+			    CALCULATE ( 
+			        [Total de Vendas],
+			        KEEPFILTERS (
+			            DATESBETWEEN ( dCalendario[Data], __PrimeiraData, __UltimaData )
+			        )
+			    )
+			
+			// Retorna o resultado
+			RETURN
+			    __Resultado 
+			```
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 880659b0-f021-4bf0-944e-d0a089a33e9e
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column Value
+		isHidden
+		formatString: 0
+		lineageTag: d12354c8-1393-40cb-af6d-8e8fdff8bd89
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Medidas = calculated
+		mode: import
+		source = ```
+				{0} 
+				```
+
+	annotation PBI_Id = 20cb77c1b722427da47db0f71c346731
+

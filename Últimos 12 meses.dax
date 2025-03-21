@@ -1,0 +1,29 @@
+Últimos 12 meses = 
+			
+// Calcula os últimos 12 meses de vendas
+// de acordo com o [Mês/Ano] do segmentador.
+
+// Extrai a última data do segmentador.
+VAR __UltimaData = LASTDATE ( dSegmentador[Data] )
+
+// Calcula a primeira data. Subtrai-se 12 meses e
+// adiciona 1 um dia.
+VAR __PrimeiraData = EDATE ( __UltimaData, -12 ) + 1
+
+// Calcula o [Total de Vendas] no intervalo.
+// A função KEEPFILTERS devolve o contexto ao visual.
+VAR __Resultado = 
+    CALCULATE ( 
+        [Total de Vendas],
+        KEEPFILTERS (
+            DATESBETWEEN ( 
+                dCalendario[Data], 
+                __PrimeiraData, 
+                __UltimaData 
+            )
+        )
+    )
+
+// Retorna o resultado
+RETURN
+    __Resultado 

@@ -1,0 +1,4 @@
+relationship 5a05ef79-8aa4-e359-35a2-7c4e0766327f
+	fromColumn: fVendas.Data
+	toColumn: dCalendario.Data
+

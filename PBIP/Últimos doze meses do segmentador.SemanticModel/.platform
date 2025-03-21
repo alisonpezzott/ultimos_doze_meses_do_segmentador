@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Últimos doze meses do segmentador"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "fc5bf859-0d39-4c3c-b408-38dfe7fb1a14"
+  }
+}
